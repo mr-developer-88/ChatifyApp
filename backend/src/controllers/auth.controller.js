@@ -71,6 +71,10 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
     const { email, password } = req.body;
 
+    if(!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+    }
+
     const normalizedEmail =
         typeof email === "string" ? email.trim().toLowerCase() : "";
     const pass = typeof password === "string" ? password : "";
@@ -109,7 +113,14 @@ export const login = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 };
-export const logout = async (_, res) => {
-    res.cookie("jwt", "", {maxAge: 0});
-    res.status(200).json({ message: "Logged out successfully" });
+
+export const logout = (req, res) => {
+    const cookieOptions = {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: ENV.NODE_ENV !== "development",
+        path: "/", 
+    };
+    res.clearCookie("jwt", cookieOptions);
+    return res.status(200).json({ message: "Logged out successfully" });
 }
