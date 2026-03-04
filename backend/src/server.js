@@ -1,9 +1,9 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.route.js';
 import messageRoutes from './routes/message.route.js';
 import path from 'path';
 import { connectDB } from './lib/db.js';
-import { connect } from 'http2';
 import { ENV } from './lib/env.js';
 
 
@@ -13,9 +13,12 @@ const __dirname = path.resolve();
 const PORT  = ENV.PORT || 3000;
 
 app.use(express.json()); // req.body / for parsing application/json
+app.use(cookieParser()); // for parsing cookies
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes)
+
+
 
 // make ready for deployment
 if (ENV.NODE_ENV === "production") {
