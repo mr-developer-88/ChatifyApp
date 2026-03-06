@@ -13,7 +13,7 @@ export const ENV = {
     CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
     ARCJET_KEY: process.env.ARCJET_KEY,
-    ARCJET_ENV: process.env.ARCJET_ENV || "development",
+    ARCJET_ENV: process.env.ARCJET_ENV,
 }
 
 const requiredInProd = ["MONGO_URI", "JWT_SECRET", "RESEND_API_KEY", "EMAIL_FROM", "EMAIL_FROM_NAME", "CLIENT_URL"];
