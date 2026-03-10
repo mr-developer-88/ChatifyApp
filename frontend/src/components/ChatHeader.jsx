@@ -4,6 +4,7 @@ import { XIcon } from 'lucide-react';
 
 const ChatHeader = () => {
     const {selectedUser, setSelectedUser} = useChatStore();
+    if(!selectedUser) return null;
 
     useEffect(() => {
 
