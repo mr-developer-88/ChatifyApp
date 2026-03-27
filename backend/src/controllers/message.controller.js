@@ -26,7 +26,7 @@ export const getMessagesByUserId = async (req, res) => {
         { senderId: myId, receiverId: userToChatId },
         { senderId: userToChatId, receiverId: myId },
       ],
-    });
+    }).sort({ createdAt: 1 }); // old -> new
 
     res.status(200).json(messages);
   } catch (error) {
@@ -40,17 +40,17 @@ export const sendMessage = async (req, res) => {
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
 
-    if(!text && !image) {
-      return res.status(400).json({message: "text or image is required"})
+    if (!text && !image) {
+      return res.status(400).json({ message: "text or image is required" })
     }
 
-    if(senderId.equals(receiverId)) {
-      return res.status(400).json({message: "Cannot send message to your self"})
+    if (senderId.equals(receiverId)) {
+      return res.status(400).json({ message: "Cannot send message to your self" })
     }
 
-    const receiverExists = await User.exists({ _id: receiverId});
-    if(!receiverExists) {
-      return res.status(404).json({message: "receiver not found"})
+    const receiverExists = await User.exists({ _id: receiverId });
+    if (!receiverExists) {
+      return res.status(404).json({ message: "receiver not found" })
     }
 
     let imageUrl;
@@ -93,7 +93,7 @@ export const getChatPartners = async (req, res) => {
       ),
     ];
 
-    const chatPartners = await User.find({_id: {$in:chatPartnerIds}}).select("-password");
+    const chatPartners = await User.find({ _id: { $in: chatPartnerIds } }).select("-password");
 
     res.status(200).json(chatPartners)
   } catch (error) {
