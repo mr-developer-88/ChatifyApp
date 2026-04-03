@@ -6,7 +6,7 @@ import { useAuthStore } from '../store/useAuthStore';
 const ChatHeader = () => {
     const {selectedUser, setSelectedUser} = useChatStore();
     const  {onlineUsers} = useAuthStore();
-    const isOnline = onlineUsers.includes(selectedUser?._id);
+    const isOnline = selectedUser?._id ? onlineUsers.includes(String(selectedUser._id)) : false;
 
     if(!selectedUser) return null;
 
