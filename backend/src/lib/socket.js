@@ -19,7 +19,7 @@ io.use(socketAuthMiddleware);
 
 // we will use this function to check if the user is online or not
 export function getReceiverSocketId(userId) {
-    return userSocketMap[userId];
+    return userSocketMap.get(userId);
 }
 
 // in-memory presence: Map<userId, Set<socketId>>

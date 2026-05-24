@@ -85,29 +85,37 @@ export const useChatStore = create((set, get) => ({
   },
 
   subscribeToMessages: () => {
-    const { selectedUser, isSoundEnabled } = get();
-    if (!selectedUser) return;
-
     const socket = useAuthStore.getState().socket;
+    if (!socket) return;
+
+    // clean up any existing listener to prevent duplicate subscriptions
+    socket.off("newMessage");
 
     socket.on("newMessage", (newMessage) => {
-      const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
-      if (!isMessageSentFromSelectedUser) return;
+      const { selectedUser, messages } = get();
 
-      const currentMessages = get().messages;
-      set({ messages: [...currentMessages, newMessage] });
+      // Only append the message if it's from the currently open chat partner
+      if (selectedUser && newMessage.senderId === selectedUser._id) {
+        set({
+          messages: [...messages, newMessage],
+        });
+      }
 
-      if (isSoundEnabled) {
-        const notificationSound = new Audio("/sounds/notification.mp3");
+      // Refresh active chats sidebar list in real time
+      get().getMyChatPartners();
 
-        notificationSound.currentTime = 0; // reset to start
-        notificationSound.play().catch((e) => console.log("Audio play failed:", e));
+      // Play custom notification sound if enabled
+      if (get().isSoundEnabled) {
+        const sound = new Audio("/sounds/notification.mp3");
+        sound.play().catch((e) => console.log("Sound play error:", e));
       }
     });
   },
 
   unsubscribeFromMessages: () => {
     const socket = useAuthStore.getState().socket;
-    socket.off("newMessage");
+    if (socket) {
+      socket.off("newMessage");
+    }
   },
 }));
