@@ -13,18 +13,17 @@ const LoginPage = () => {
       login(formData);
     };
   return (
-    <div className="w-full flex items-center justify-center p-4 bg-slate-900">
-      <div className="relative w-full max-w-6xl md:h-[800px] h-[650px]">
-        <BorderAnimatedContainer>
-          <div className="w-full flex flex-col md:flex-row">
+    <div className="w-full h-full flex items-center justify-center p-4 sm:p-8">
+      <div className="relative w-full max-w-5xl bg-base-100/50 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-base-300">
+        <div className="flex flex-col md:flex-row h-full">
             {/* FORM CLOUMN - LEFT SIDE */}
-            <div className="md:w-1/2 p-8 flex items-center justify-center md:border-r border-slate-600/30">
+            <div className="md:w-1/2 p-8 flex items-center justify-center md:border-r border-base-300 bg-base-100/50 backdrop-blur-md">
               <div className="w-full max-w-md">
                 {/* HEADING TEXT */}
                 <div className="text-center mb-8">
-                  <MessageCircleIcon className="w-12 h-12 mx-auto text-slate-400 mb-4" />
-                  <h2 className="text-2xl font-bold text-slate-200 mb-2">Welcome Back</h2>
-                  <p className="text-slate-400">Login to access your Account!</p>
+                  <MessageCircleIcon className="w-12 h-12 mx-auto text-primary mb-4" />
+                  <h2 className="text-2xl font-bold text-base-content mb-2">Welcome Back</h2>
+                  <p className="text-base-content/60">Login to access your Account!</p>
                 </div>
 
                 {/* FORM */}
@@ -80,28 +79,24 @@ const LoginPage = () => {
             </div>
 
             {/* FORM ILLUSTRATION - RIGHT SIDE */}
-            <div className="hidden md:w-1/2 md:flex items-center justify-center p-6 bg-gradient-to-bl from-slate-800/20 to-transparent">
-              <div>
+            <div className="hidden md:flex md:w-1/2 items-center justify-center p-12 bg-base-200/50">
+              <div className="max-w-md text-center">
                 <img
                   src="/login.png"
                   alt="People using mobile devices"
-                  className="w-full h-auto object-contain"
+                  className="w-full h-auto object-contain drop-shadow-2xl mb-8 transition-transform hover:scale-105 duration-500"
                 />
-                <div className="mt-6 text-center">
-                  <h3 className="text-xl font-medium text-cyan-400">Connect, Anytime, AnyWhere</h3>
-
-                  <div className="mt-4 flex justify-center gap-4">
-                    <span className="auth-badge">Free</span>
-                    <span className="auth-badge">Easy Setup</span>
-                    <span className="auth-badge">Private</span>
-                  </div>
+                <h3 className="text-2xl font-bold text-primary mb-4">Connect, Anytime, Anywhere</h3>
+                <div className="flex flex-wrap justify-center gap-3">
+                  <span className="auth-badge">Free</span>
+                  <span className="auth-badge">Easy Setup</span>
+                  <span className="auth-badge">Private</span>
                 </div>
               </div>
             </div>
           </div>
-        </BorderAnimatedContainer>
+        </div>
       </div>
-    </div>
   );
 }
 

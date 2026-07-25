@@ -15,8 +15,14 @@ export default {
         'border': {
           to: {'--border-angle': '360deg'},
         }
-      }
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
     },
   },
   plugins: [daisyui],
+  daisyui: {
+    themes: ["dark", "light", "dracula", "winter", "dim", "synthwave"],
+  }
 }

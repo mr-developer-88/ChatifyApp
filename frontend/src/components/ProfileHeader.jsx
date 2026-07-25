@@ -27,7 +27,7 @@ function ProfileHeader() {
   };
 
   return (
-    <div className="p-6 border-b border-slate-700/50">
+    <div className="p-4 md:p-6 bg-base-100/50">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           {/* AVATAR */}
@@ -56,39 +56,41 @@ function ProfileHeader() {
           </div>
 
           {/* USERNAME & ONLINE TEXT */}
-          <div>
-            <h3 className="text-slate-200 font-medium text-base max-w-[180px] truncate">
+          <div className="min-w-0">
+            <h3 className="text-base-content font-semibold text-base max-w-[120px] md:max-w-[180px] truncate">
               {authUser.fullName}
             </h3>
 
-            <p className="text-slate-400 text-xs">Online</p>
+            <p className="text-base-content/80 text-xs font-medium">Online</p>
           </div>
         </div>
 
         {/* BUTTONS */}
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-2 items-center">
           {/* LOGOUT BTN */}
           <button
-            className="text-slate-400 hover:text-slate-200 transition-colors"
+            className="p-2 text-base-content/80 hover:text-base-content hover:bg-base-200 rounded-full transition-colors"
             onClick={logout}
+            title="Logout"
           >
-            <LogOutIcon className="size-5" />
+            <LogOutIcon className="size-5 md:size-6" />
           </button>
 
           {/* SOUND TOGGLE BTN */}
           <button
-            className="text-slate-400 hover:text-slate-200 transition-colors"
+            className="p-2 text-base-content/80 hover:text-base-content hover:bg-base-200 rounded-full transition-colors"
             onClick={() => {
               // play click sound before toggling
               mouseClickSound.currentTime = 0; // reset to start
               mouseClickSound.play().catch((error) => console.log("Audio play failed:", error));
               toggleSound();
             }}
+            title={isSoundEnabled ? "Mute sounds" : "Enable sounds"}
           >
             {isSoundEnabled ? (
-              <Volume2Icon className="size-5" />
+              <Volume2Icon className="size-5 md:size-6 text-primary" />
             ) : (
-              <VolumeOffIcon className="size-5" />
+              <VolumeOffIcon className="size-5 md:size-6" />
             )}
           </button>
         </div>

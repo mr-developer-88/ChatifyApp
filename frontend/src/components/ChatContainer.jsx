@@ -7,18 +7,14 @@ import MessageInput from "./MessageInput";
 import MessagesLoadingSkeleton from "./MessagesLoadingSkeleton";
 
 const ChatContainer = () => {
-  const { selectedUser, getMessagesByUserId, messages, isMessagesLoading, subscribeToMessages, unsubscribeFromMessages } =
+  const { selectedUser, getMessagesByUserId, messages, isMessagesLoading } =
     useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
 
   useEffect(() => {
     if (selectedUser?._id) getMessagesByUserId(selectedUser._id);
-    subscribeToMessages();
-
-    //clean up
-    return () => unsubscribeFromMessages();
-  }, [selectedUser?._id, getMessagesByUserId, subscribeToMessages, unsubscribeFromMessages]);
+  }, [selectedUser?._id, getMessagesByUserId]);
 
   useEffect(() => {
     if (messageEndRef.current) {
@@ -30,19 +26,19 @@ const ChatContainer = () => {
   return (
     <>
       <ChatHeader />
-      <div className="flex-1 px-6 overflow-y-auto py-8">
+      <div className="flex-1 px-4 md:px-6 overflow-y-auto py-8">
         {messages.length > 0 && !isMessagesLoading ? (
-          <div className="max-w-3xl mx-auto space-y-6">
+          <div className="w-full flex flex-col space-y-4">
             {messages.map((msg) => (
               <div
                 key={msg._id}
                 className={`chat ${msg.senderId === authUser._id ? "chat-end" : "chat-start"}`}
               >
                 <div
-                  className={`chat-bubble relative ${
+                  className={`chat-bubble relative shadow-md ${
                     msg.senderId === authUser._id
-                      ? "bg-cyan-600 text-white"
-                      : "bg-slate-800 text-slate-200"
+                      ? "bg-gradient-to-tr from-primary to-primary/80 text-white"
+                      : "bg-base-100 text-base-content border border-base-300"
                   }`}
                 >
                   {msg.image && (

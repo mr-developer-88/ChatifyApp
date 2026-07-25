@@ -19,7 +19,26 @@ export const useChatStore = create((set, get) => ({
   },
 
   setActiveTab: (tab) => set({ activeTab: tab }),
-  setSelectedUser: (selectedUser) => set({ selectedUser }),
+  setSelectedUser: (selectedUser) => {
+    set({ selectedUser });
+    if (selectedUser) {
+      get().markChatAsRead(selectedUser._id);
+    }
+  },
+
+  markChatAsRead: async (userId) => {
+    try {
+      await axiosInstance.put(`/messages/mark-read/${userId}`);
+      // Optimistically clear unread count locally
+      set((state) => ({
+        chats: state.chats.map((chat) => 
+          chat._id === userId ? { ...chat, unreadCount: 0 } : chat
+        ),
+      }));
+    } catch (error) {
+      console.log("Error marking chat as read:", error);
+    }
+  },
 
   getAllContacts: async () => {
     set({ isUsersLoading: true });
@@ -77,6 +96,7 @@ export const useChatStore = create((set, get) => ({
     try {
       const res = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData);
       set({ messages: messages.concat(res.data) });
+      get().getMyChatPartners(); // update sidebar latest message
     } catch (error) {
       // remove optimistic message on failure
       set({ messages: messages });
@@ -99,6 +119,7 @@ export const useChatStore = create((set, get) => ({
         set({
           messages: [...messages, newMessage],
         });
+        get().markChatAsRead(selectedUser._id);
       }
 
       // Refresh active chats sidebar list in real time
